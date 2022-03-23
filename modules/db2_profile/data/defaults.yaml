@@ -1,0 +1,249 @@
+---
+# ------------------------------------------------------------------------------
+#
+#  Settings for database
+#
+# ------------------------------------------------------------------------------
+
+db2_profile::database::name:                                                MYDB
+db2_profile::database::instance_group:                                      db2iadm1
+db2_profile::database::fence_group:                                         db2fsdm1
+db2_profile::database::admin_group:                                         dasadm1
+db2_profile::database::instance_user:                                       db2inst1
+db2_profile::database::fence_user:                                          db2fenc1
+db2_profile::database::admin_user:                                          dasusr1
+db2_profile::location:                                                      /opt/IBM/db2
+# ------------------------------------------------------------------------------
+#
+# Settings for database::fact_caching
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::fact_caching::enabled:    false
+# ------------------------------------------------------------------------------
+#
+# Settings for database::sysctl default for a system with 4G internal memory
+#
+# ------------------------------------------------------------------------------
+# from https://www.ibm.com/docs/en/db2/11.5?topic=unix-kernel-parameter-requirements-linux
+# 
+# (SHMMNI)	256 * <size of RAM in GB>
+# (SHMMAX)	<size of RAM in bytes>
+# (SHMALL)	2 * <size of RAM in the default system page size>
+# kernel.sem (SEMMSL)	250
+# kernel.sem (SEMMNS)	256000
+# kernel.sem (SEMOPM)	32
+# kernel.sem (SEMMNI)	256 * <size of RAM in GB>
+# kernel.sem = SEMMSL SEMMNS SEMOPM SEMMNI
+# (MSGMNI)	1024 * <size of RAM in GB>
+db2_profile::database::sysctl::list:
+  'kernel.shmmni':
+    value: 1024
+  'kernel.shmmax':
+    value: 4294967296   
+  'kernel.shmall':
+    value: 2097152   
+  'kernel.sem':
+    value: 250 256000 32 1024
+  'kernel.msgmni':
+    value: 4096 
+  'kernel.msgmax':
+    value: 65536
+  'kernel.msgmnb':
+    value: 655363    
+  'vm.swappiness':
+    value: 5
+  'vm.overcommit_memory':
+    value:  0
+  # 'vm.max_map_count':
+  #   value:  0
+  'fs.aio-max-nr':
+    value:  1048576
+# ------------------------------------------------------------------------------
+#
+# Settings for database::limits
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::limits::list:
+  '*/nofile':
+    soft: 65536
+    hard: 65536
+  '*/fsize':
+    soft: Unlimited
+    hard: Unlimited
+  '*/data':
+    soft: Unlimited
+    hard: Unlimited
+# ------------------------------------------------------------------------------
+#
+# Settings for database::groups_and_users
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::groups_and_users::required_values:
+  - db2_profile::database::instance_user_password
+  - db2_profile::database::fence_user_password
+  - db2_profile::database::admin_user_password
+db2_profile::database::groups_and_users::groups:
+  "%{lookup('db2_profile::database::instance_group')}":
+    gid:  1004
+  "%{lookup('db2_profile::database::fence_group')}":
+    gid:  1003
+  "%{lookup('db2_profile::database::admin_group')}":
+    gid:  1002
+db2_profile::database::groups_and_users::users:
+  "%{lookup('db2_profile::database::instance_user')}":
+    uid:        1004
+    gid:        "%{lookup('db2_profile::database::instance_group')}"
+    # groups:
+    # - "%{lookup('db2_profile::database::instance_group')}"
+    shell:      /bin/bash
+    password:   "%{alias('db2_profile::database::instance_user_password')}"
+    home:       "/home/%{lookup('db2_profile::database::instance_user')}"
+    comment:    This user was created by Puppet
+    managehome: true
+  "%{lookup('db2_profile::database::fence_user')}":
+    uid:        1003
+    gid:        "%{lookup('db2_profile::database::fence_group')}"
+    # groups:
+    # - "%{lookup('db2_profile::database::fence_group')}"
+    shell:      /bin/bash
+    password:   "%{alias('db2_profile::database::fence_user_password')}"
+    home:       "/home/%{lookup('db2_profile::database::fence_user')}"
+    comment:    This user was created by Puppet
+    managehome: true
+  "%{lookup('db2_profile::database::admin_user')}":
+    uid:        1002
+    gid:        "%{lookup('db2_profile::database::admin_group')}"
+    groups:
+    - "%{lookup('db2_profile::database::admin_group')}"
+    shell:      /bin/bash
+    password:   "%{alias('db2_profile::database::admin_user_password')}"
+    home:       "/home/%{lookup('db2_profile::database::admin_user')}"
+    comment:    This user was created by Puppet
+    managehome: true
+# ------------------------------------------------------------------------------
+#
+# Settings for database::packages
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::packages::list:
+  gcc:                    {}
+  binutils:               {}
+  cpp:                    {}
+  kernel-devel:           {}
+  file:                   {}
+  perl:                   {}
+  libgomp:                {}
+  make:                   {}
+  libgcc:                 {}
+  sg3_utils:              {}
+  tar:                    {}
+  gcc-c++:                {}
+  patch:                  {}
+  python2:                {}
+  libstdc++:              {}
+  libstdc++.i686:         {}
+  libaio:                 {}
+  ksh:                    {}
+  openssh:                {}
+  openssh-server:         {}
+  # rsh-server:             {}
+  numactl-libs:           {}
+  nfs-utils:              {}
+  mksh:                   {}
+  pam:
+    ensure: latest
+  pam.i686:               {}
+  rubyzip:
+    ensure:     present
+    provider:   puppet_gem
+  ibm_db:
+    ensure:     present
+    provider:   puppet_gem
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::firewall
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::firewall::firewalld::ports:
+  '300 Allow DB2 on port 5000':
+    port: 5000
+db2_profile::database::firewall::manage_service:                          true
+
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_software
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_software::source:         "%{lookup('db2_profile::source')}"
+db2_profile::database::db_software::version:        "%{lookup('db2_profile::version')}"
+db2_profile::database::db_software::location:       "%{lookup('db2_profile::location')}"
+
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_fixpack
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_fixpack::source:         "%{lookup('db2_profile::source')}"
+db2_profile::database::db_fixpack::location:       "%{lookup('db2_profile::location')}"
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_instance
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_instance::list: 
+  db2inst1:
+    ensure:       present
+    location:     "%{lookup('db2_profile::location')}"
+    manage_users: false       # Here we use the users created by users and groups
+    state:        running
+# ------------------------------------------------------------------------------
+#
+#  Settings for database::db_definition
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_definition::list: 
+  "db2inst1/%{lookup('db2_profile::database::name')}":
+    ensure:       present
+# ------------------------------------------------------------------------------
+#
+# Settings for db_startup
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_startup::location:       "%{lookup('db2_profile::location')}"
+db2_profile::database::db_startup::instance_name:  "%{lookup('db2_profile::database::instance_user')}"
+
+# ------------------------------------------------------------------------------
+#
+# Settings for db_users
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_users::list:      {}
+
+# ------------------------------------------------------------------------------
+#
+# Settings for db_tablespaces
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_tablespaces::list:      {}
+# ------------------------------------------------------------------------------
+#
+# Settings for db_roles
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_roles::list:      {}
+
+# ------------------------------------------------------------------------------
+#
+# Settings for db_groups
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_groups::list:      {}
+
+# ------------------------------------------------------------------------------
+#
+# Settings for db_schemas
+#
+# ------------------------------------------------------------------------------
+db2_profile::database::db_schemas::list:      {}

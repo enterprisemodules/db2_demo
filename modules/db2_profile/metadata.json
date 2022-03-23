@@ -1,0 +1,99 @@
+{
+  "name": "enterprisemodules-db2_profile",
+  "version": "0.1.0",
+  "author": "Enterprise Modules",
+  "summary": "Puppet profiles for installing IBM DB2 Database software and creating and managing  databases",
+  "license": "proprietary",
+  "source": "https://github.com/enterprisemodules/db2_profile",
+  "project_page": "https://github.com/enterprisemodules/db2_profile",
+  "issues_url": "https://github.com/enterprisemodules/db2_profile/issues",
+  "dependencies": [
+    {
+      "name": "enterprisemodules/easy_type",
+      "version_requirement": ">= 2.37.2 < 3.0.0"
+    },
+    {
+      "name": "enterprisemodules/db2_config",
+      "version_requirement": ">= 0.1.0 < 1.0.0"
+    },
+    {
+      "name": "enterprisemodules/db2_install",
+      "version_requirement": ">= 0.1.0 < 1.0.0"
+    },
+    {
+      "name": "enterprisemodules/db2_secured",
+      "version_requirement": ">= 0.1.1 < 1.0.0"
+    },
+    {
+      "name": "ipcrm-echo",
+      "version_requirement": ">= 0.1.6 < 1.0.0"
+    },
+    {
+      "name": "herculesteam-augeasproviders_core",
+      "version_requirement": ">= 2.1.4 < 4.0.0"
+    },
+    {
+      "name": "herculesteam-augeasproviders_sysctl",
+      "version_requirement": ">= 2.2.0 < 4.0.0"
+    },
+    {
+      "name": "saz-limits",
+      "version_requirement": ">= 3.0.2 < 4.0.0"
+    },
+    {
+      "name": "puppetlabs-firewall",
+      "version_requirement": ">= 1.12.0 < 4.0.0"
+    },
+    {
+      "name": "puppet-firewalld",
+      "version_requirement": ">= 4.0.0 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.25.0 < 7.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "AlmaLinux",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.7.0 < 8.0.0"
+    }
+  ],
+  "pdk-version": "1.7.0",
+  "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git",
+  "template-ref": "1.7.0-0-g57412ed"
+}
