@@ -1,0 +1,50 @@
+---
+#
+# The default settings for all nodes
+#
+defaults:
+  domain_name:     example.com
+  cpucount:         2
+  needs_storage:    false
+  additional_hosts:
+    dbmaster:
+      ip: 192.168.56.10
+  box:              enterprisemodules/ol-8.1-x86_64-nocm
+  custom_facts:
+    deployment_zone: vagrant
+
+#
+# The default settings for all ML nodes
+#
+ml-defaults:
+  type:             masterless
+
+#
+# The default settings for all PE nodes
+#
+pe-defaults:
+  type:             pe-agent
+  puppet_master:    dbmaster
+
+#
+# All masterless nodes
+#
+ml-db115:
+  ram:              6144
+  public_ip:        '192.168.56.112'
+  software_files:
+  - DB2S_11.5.4_MPML.tar.gz
+  - v11.5.7_linuxx64_universal_fixpack.tar.gz
+ml-db115a:
+  ram:              6144
+  public_ip:        '192.168.56.112'
+  software_files:
+  - DB2S_11.5.4_MPML.tar.gz
+  - v11.5.7_linuxx64_universal_fixpack.tar.gz
+ml-db115b:
+  ram:              6144
+  public_ip:        '192.168.56.113'
+  software_files:
+  - DB2S_11.5.4_MPML.tar.gz
+  - v11.5.7_linuxx64_universal_fixpack.tar.gz
+

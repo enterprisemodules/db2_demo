@@ -1,0 +1,49 @@
+---
+deployment_zone: vagrant
+
+role: role::db2::simple_db
+# role: role::db2::secure_db
+
+db2_profile::name:                                  MYDB
+db2_profile::source:                                /vagrant/modules/software/files
+db2_profile::location:                              /opt/ibm/db2/V11.5
+db2_profile::version:                               '11.5'
+db2_profile::database::db_software::file_name:      DB2S_11.5.4_MPML.tar.gz
+db2_profile::database::db_fixpack::version:         '11.5.7'
+db2_profile::database::db_fixpack::file_name:       v11.5.7_linuxx64_universal_fixpack.tar.gz
+db2_profile::database::primary:                     db115a.example.com
+#
+# In this simple setup, use the already shared vagrant dir to exchange the basic backup
+#
+db2_profile::database::db_standby::backup_path:  /vagrant/db2backup
+
+db2_profile::database::db_standby::list: 
+  "db2inst1/%{lookup('db2_profile::database::name')}":
+    hadr_local_host:   192.168.56.113
+    hadr_remote_host:  192.168.56.112
+
+db2_profile::database::db_standby::wait_time:     20
+
+db2_profile::database::db_tablespaces::list:
+  db2inst1/MYDB/USER_TS_1:
+    ensure: present
+
+db2_profile::database::db_users::list:
+  db2inst1/MYDB/user1:
+    ensure: present
+    grants:
+      - CONNECT
+  db2inst1/MYDB/user2:
+    ensure: present
+
+db2_profile::database::db_roles::list:
+  db2inst1/MYDB/role1:
+    ensure: present
+  db2inst1/MYDB/role2:
+    ensure: present
+
+db2_profile::database::firewall::firewalld::ports:
+  '300 Allow DB2 on port 5000':
+    port: 5000
+  '310 Allow DB2 on port 20016':
+    port: 20016

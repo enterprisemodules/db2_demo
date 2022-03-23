@@ -1,0 +1,32 @@
+---
+#
+# Include the shared gitlab CI definitions
+# 
+include:
+  - project: 'enterprisemodules/gitlab_ci'
+    file: 'gitlab-ci.yml'
+
+db115_demo_check:
+  extends: .demo_check
+  variables:
+    server: ml-db115
+  before_script:
+    - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
+    - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
+    - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
+    - mkdir -p modules/software/files
+    - cp ~/software/DB2S_11.5.4_MPML.tar.gz modules/software/files
+    - cp ~/software/v11.5.7_linuxx64_universal_fixpack.tar.gz modules/software/files
+
+db115_hadr_demo_check:
+  extends: .ha_demo_check
+  variables:
+    server_1: ml-db115a
+    server_2: ml-db115b
+  before_script:
+    - echo -e "machine gitlab.com\nlogin gitlab-ci-token\npassword ${CI_JOB_TOKEN}" > .netrc
+    - if [ "$USE_LATEST_MODULES" == "yes" ]; then touch ./use_latest_modules ; fi
+    - if [ $PUPPET_VERSION ]; then echo $PUPPET_VERSION > ./puppet_version ; fi
+    - mkdir -p modules/software/files
+    - cp ~/software/DB2S_11.5.4_MPML.tar.gz modules/software/files
+    - cp ~/software/v11.5.7_linuxx64_universal_fixpack.tar.gz modules/software/files

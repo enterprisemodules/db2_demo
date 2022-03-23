@@ -1,0 +1,34 @@
+---
+version: 5
+defaults:  # Used for any hierarchy level that omits these keys.
+  datadir: hieradata         # This path is relative to hiera.yaml's directory.
+  data_hash: yaml_data       # Use the built-in YAML backend.
+
+hierarchy:
+  - name: "Per-node data"                   # Human-readable name.
+    paths: 
+      - "nodes/%{trusted.certname}.yaml"  # File path, relative to datadir.
+      - "nodes/%{hostname}.yaml" 
+      
+  - name: "Deployment Zone" # Uses custom facts.
+    path: "deployment_zones/%{::deployment_zone}.yaml"
+
+  - name: "Defaults"
+    path: "defaults.yaml"
+
+  - name: "Generated password"
+    lookup_key: 'easy_type::generated_passwords'
+    options:
+      use_for:
+        'db2_profile::.*::instance_user_password':            'hash(Aa1$.9,sha-256)'
+        'db2_profile::.*::fence_user_password':               'hash(Aa1$.9,sha-256)'
+        'db2_profile::.*::admin_user_password':               'hash(Aa1$.9,sha-256)'
+
+          # 'ora_profile::.*::os_user_password':               'aA1.12'
+          # 'ora_profile::.*::grid_user_password':             'aA1.12'
+          # 'ora_profile::.*::system_password':                'aA1#.12'
+          # 'ora_profile::.*::sys_password':                   'aA1#.12'
+          # 'ora_profile::.*::asm_sys_password':               'aA1#.12'
+          # 'ora_profile::.*::weblogic_password':              'aA1.12'
+          # 'ora_profile::.*::sysman_password':                'aA1.12' # For 12.1 at least
+          # 'ora_profile::.*::agent_registration_password':    'aA1.12'
