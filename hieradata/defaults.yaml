@@ -7,3 +7,4 @@
 db2_profile::database::source: puppet:///modules/software
 
 easy_type::generate_password_mode: development
+

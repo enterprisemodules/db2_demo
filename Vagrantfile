@@ -331,6 +331,12 @@ end
 
 # Check if all required software files from servers.yaml are present in repo.
 def local_software_file_check(srv, file_names)
+  srv.trigger.before :up do |trigger|
+    trigger.ruby do |env, machine|
+      # Remove d2backup on up on first node
+      FileUtils.rm_rf("#{VAGRANT_ROOT}/db2backup") if machine.name.to_s[-1] == 'a'
+    end
+  end
   srv.trigger.before [:up, :reload, :provision] do |trigger|
     trigger.ruby do |env, machine|
       files_found = true

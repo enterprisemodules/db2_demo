@@ -1,0 +1,98 @@
+---
+db2_profile::database::db_tablespaces::list:
+  db2inst1/MYDB/USER_TS_1:
+    ensure: present
+
+db2_profile::database::db_users::list:
+  db2inst1/MYDB/user1:
+    ensure: present
+    grants:
+      - CONNECT
+  db2inst1/MYDB/user2:
+    ensure: present
+
+db2_profile::database::db_roles::list:
+  db2inst1/MYDB/role1:
+    ensure: present
+  db2inst1/MYDB/role2:
+    ensure: present
+
+db2_profile::database::firewall::firewalld::ports:
+  '300 Allow DB2 on port 5000':
+    port: 5000
+  '310 Allow DB2 on port 20016':
+    port: 20016
+
+db2_profile::database::cluster_manager:           pacemaker
+db2_profile::database::passwordless_root::nodes:
+  - db1157a
+  - db1157b
+
+db2_profile::database::passwordless_root::public_key: AAAAB3NzaC1yc2EAAAADAQABAAABgQDFqbKJAGS1q+sqLdtlYC6BLvtxZRYj1aFE/o1eZheKw0ox71zc8dv9l3WOWysCajWHKeGguWrsI9ymNiwneb3OL7A2VMvMobqf/PMII4UqQcVtoCDfraeq3L95PhJ4cxQf1S7Uac2JRp72200LQvD12TxcTIjvE0RukhmpOGr3JQXl3XUXFdsHrmEn3+vc60rlEpax9LUgeWX4Q4YpfeJCfED1WqVX/OsDgUEj9o5V6lQ2lF8hUyZbz5C3JWfk/Qg6OMSab2Mgm2f6XbcN9FfgYg7JC9qP8XMQpldx+yH/nMY1iiKFTPS2k8u0T+J147KPUm7nlJU0ExUvGW0jTS4jKmjvx5H2pu4HAtnmCNl1lhjcyDs8Bm1QKuqetfH9/2GlVuF1NIAkp/VGsrcK2BMvBQ536xiA83Bd64YPC4SZf0yyFbltZDQ9BCADbaswsMKRvBap8SgfM8fMrOn9fZwR2H5DtBAHM5r17qlh3isWW1ymr3b+K18X+1DyrhftpIU=
+db2_profile::database::passwordless_root::private_key: |
+  -----BEGIN OPENSSH PRIVATE KEY-----
+  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
+  -----END OPENSSH PRIVATE KEY-----
+
+db2_profile::database::pacemaker_setup::clusters:
+  mycluster:
+    ensure: present
+    nodes:
+      - db1157a
+      - db1157b
+    interfaces:
+      - eth0
+      - eth0
+
+db2_profile::database::pacemaker_setup::instances:
+  db2inst1:
+    ensure: present
+    nodes:
+      - db1157a
+      - db1157b
+
+db2_profile::database::pacemaker_setup::databases:
+  db2inst1/MYDB:
+    ensure: present
+
+db2_profile::database::pacemaker_setup::vips:
+  db2inst1/MYDB/primary/10.0.2.18:
+    ensure: present
+  db2inst1/MYDB/standby/10.0.2.19:
+    ensure: present
+...
