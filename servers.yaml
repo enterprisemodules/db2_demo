@@ -47,4 +47,17 @@ ml-db115b:
   software_files:
   - DB2S_11.5.4_MPML.tar.gz
   - v11.5.7_linuxx64_universal_fixpack.tar.gz
+ml-db1157a:
+  ram:              6144
+  public_ip:        '192.168.57.112'
+  software_files:
+  - v11.5.7_linuxx64_universal_fixpack.tar.gz
+ml-db1157b:
+  ram:              6144
+  public_ip:        '192.168.57.113'
+  software_files:
+  - v11.5.7_linuxx64_universal_fixpack.tar.gz
+ml-db1157c:
+  ram:              6144
+  public_ip:        '192.168.57.114'
 

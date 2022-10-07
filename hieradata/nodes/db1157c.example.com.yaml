@@ -1,0 +1,8 @@
+---
+# @include '../includes/db2_components.yaml'
+# @include '../includes/db2_config.yaml'
+
+deployment_zone: vagrant
+
+role: role::db2::quorum
+

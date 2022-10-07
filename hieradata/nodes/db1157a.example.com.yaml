@@ -1,4 +1,7 @@
 ---
+# @include '../includes/db2_components.yaml'
+# @include '../includes/db2_config.yaml'
+
 deployment_zone: vagrant
 
 role: role::db2::simple_db
@@ -7,11 +10,9 @@ role: role::db2::simple_db
 db2_profile::name:                                  MYDB
 db2_profile::source:                                /vagrant/modules/software/files
 db2_profile::location:                              /opt/ibm/db2/V11.5
-db2_profile::version:                               '11.5'
-db2_profile::database::db_software::file_name:      DB2S_11.5.4_MPML.tar.gz
-# db2_profile::database::db_fixpack::version:         '11.5.7'
-# db2_profile::database::db_fixpack::file_name:       v11.5.7_linuxx64_universal_fixpack.tar.gz
-db2_profile::database::primary:                     db115a.example.com
+db2_profile::version:                               '11.5.7'
+db2_profile::database::db_software::file_name:      v11.5.7_linuxx64_universal_fixpack.tar.gz
+db2_profile::database::primary:                     db1157a.example.com
 #
 # After the db backup has been made, move it to a shared location
 #
@@ -20,12 +21,16 @@ db2_profile::database::after_db_primary:          profile::db2::move_backup
 db2_profile::database::db_definition::list: 
   "db2inst1/%{lookup('db2_profile::database::name')}":
     ensure:            present
-    hadr_local_host:   192.168.56.112
+    # hadr_timeout:      600
+    hadr_local_host:   db1157a.example.com
     hadr_local_svc:    20016
-    hadr_remote_host:  192.168.56.113
+    hadr_remote_host:  db1157b.example.com
     hadr_remote_svc:   20016
     hadr_remote_inst:  db2inst1
+    hadr_target_list:  db1157b.example.com:20016
+    hadr_peer_window:  60
     logindexbuild:     'ON'
+    blocknonlogged:    'YES'
 
 db2_profile::database::db_tablespaces::list:
   db2inst1/MYDB/USER_TS_1:

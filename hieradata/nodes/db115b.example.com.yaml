@@ -9,8 +9,8 @@ db2_profile::source:                                /vagrant/modules/software/fi
 db2_profile::location:                              /opt/ibm/db2/V11.5
 db2_profile::version:                               '11.5'
 db2_profile::database::db_software::file_name:      DB2S_11.5.4_MPML.tar.gz
-db2_profile::database::db_fixpack::version:         '11.5.7'
-db2_profile::database::db_fixpack::file_name:       v11.5.7_linuxx64_universal_fixpack.tar.gz
+# db2_profile::database::db_fixpack::version:         '11.5.7'
+# db2_profile::database::db_fixpack::file_name:       v11.5.7_linuxx64_universal_fixpack.tar.gz
 db2_profile::database::primary:                     db115a.example.com
 #
 # In this simple setup, use the already shared vagrant dir to exchange the basic backup

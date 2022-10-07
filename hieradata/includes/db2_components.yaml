@@ -1,0 +1,29 @@
+---
+db2_install::components:
+- acs
+- db2_data_source_support
+- db2_sample_database
+- fed_data_source_support
+- first_steps
+- guardium_inst_mngr_client
+- instance_setup_support
+- ldap_exploitation
+- pcmk
+- tsamp
+- application_development_tools
+# - gpfs
+- iinr_applications_wrapper
+- iinr_scientific_wrapper
+- iinr_structured_files_wrapper
+- informix_data_source_support
+- jdbc_data_source_support
+- odbc_data_source_support
+- oracle_data_source_support
+# - purescale
+- spatial_extender_client_support
+- spatial_extender_server_support
+- sql_server_data_source_support
+- sybase_data_source_support
+- teradata_data_source_support
+- text_search
+...
