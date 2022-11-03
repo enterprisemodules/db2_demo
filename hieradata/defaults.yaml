@@ -8,3 +8,15 @@ db2_profile::database::source: puppet:///modules/software
 
 easy_type::generate_password_mode: development
 
+db2_profile::database::cis_controls::product_version:    db11
+db2_profile::database::cis_controls::skip_list:
+  - creating_the_database_without_public_grants
+  - secure_the_configuration_file
+  - secure_permissions_for_default_database_file_path
+  - secure_the_java_development_kit_installation_path
+  - secure_permissions_for_the_primary_archive_log_location
+  - secure_permissions_for_the_secondary_archive_log_location
+  - secure_permissions_for_the_tertiary_archive_log_location
+  - secure_permissions_for_the_log_mirror_location
+  - disable_grants_during_restore
+  - specify_secure_remote_shell_command

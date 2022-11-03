@@ -1,8 +1,8 @@
 ---
 deployment_zone: vagrant
 
-role: role::db2::simple_db
-# role: role::db2::secure_db
+# role: role::db2::simple_db
+role: role::db2::secure_db
 
 db2_profile::name:                                  MYDB
 db2_profile::source:                                /vagrant/modules/software/files

@@ -9,7 +9,13 @@ defaults:
   additional_hosts:
     dbmaster:
       ip: 192.168.56.10
-  box:              enterprisemodules/ol-8.1-x86_64-nocm
+  #
+  # Chose one of the boxes you like
+  #
+  # box:              enterprisemodules/ol-8.1-x86_64-nocm    # OracleLinux 8.1
+  # box:              enterprisemodules/ol-9.0-x86_64-nocm    # Oracle Linux 9.0
+  # box:              enterprisemodules/al-9.0-x86_64-nocm    # AlmaLinux 9.0
+  box:              enterprisemodules/rl-9.0-x86_64-nocm    # RockyLinux 9.0
   custom_facts:
     deployment_zone: vagrant
 
@@ -47,14 +53,19 @@ ml-db115b:
   software_files:
   - DB2S_11.5.4_MPML.tar.gz
   - v11.5.7_linuxx64_universal_fixpack.tar.gz
+#
+# Pacemaker does net (yer) support EL 9
+#
 ml-db1157a:
   ram:              6144
   public_ip:        '192.168.57.112'
+  box:              enterprisemodules/ol-8.1-x86_64-nocm    # OracleLinux 8.1
   software_files:
   - v11.5.7_linuxx64_universal_fixpack.tar.gz
 ml-db1157b:
   ram:              6144
   public_ip:        '192.168.57.113'
+  box:              enterprisemodules/ol-8.1-x86_64-nocm    # OracleLinux 8.1
   software_files:
   - v11.5.7_linuxx64_universal_fixpack.tar.gz
 ml-db1157c:
