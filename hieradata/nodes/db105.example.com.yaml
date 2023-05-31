@@ -1,17 +1,18 @@
 ---
 deployment_zone: vagrant
 
-# role: role::db2::simple_db
-role: role::db2::secure_db
+role: role::db2::simple_db
+# role: role::db2::secure_db
 
+db2_profile::database::db_fixpack:                      skip
 
 db2_profile::name:                                      MYDB
 db2_profile::source:                                    /vagrant/modules/software/files
-db2_profile::location:                                  /opt/ibm/db2/V11.5
-db2_profile::version:                                   '11.5'
-db2_profile::database::db_software::file_name:          DB2S_11.5.4_MPML.tar.gz
-db2_profile::database::db_fixpack::version:             '11.5.7'
-db2_profile::database::cis_controls::product_version:    db11
+db2_profile::location:                                  /opt/ibm/db2/V10.5
+db2_profile::version:                                   '10.5'
+db2_profile::database::db_software::file_name:          DB2_Svr_10.5.0.8_Linux_x86-64.tar.gz
+db2_profile::database::cis_controls::product_version:    db10
+db2_profile::database::cis_controls::doc_version:        V1.1.0
 db2_profile::database::cis_controls::skip_list:
   - creating_the_database_without_public_grants
   - secure_the_configuration_file
@@ -23,9 +24,6 @@ db2_profile::database::cis_controls::skip_list:
   - secure_permissions_for_the_log_mirror_location
   - disable_grants_during_restore
   - specify_secure_remote_shell_command
-
-db2_profile::database::db_fixpack::file_name:            v11.5.7_linuxx64_universal_fixpack.tar.gz
-
 
 db2_profile::database::db_tablespaces::list:
   db2inst1/MYDB/USER_TS_1:
@@ -44,5 +42,3 @@ db2_profile::database::db_roles::list:
     ensure: present
   db2inst1/MYDB/role2:
     ensure: present
-
-db2_profile::database::cis_controls::profile: level-1-rdbms

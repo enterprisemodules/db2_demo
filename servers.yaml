@@ -35,12 +35,26 @@ pe-defaults:
 #
 # All masterless nodes
 #
+ml-db105:
+  ram:              6144
+  public_ip:        '192.168.56.111'
+  box:              enterprisemodules/ol-8.1-x86_64-nocm    # OracleLinux 8.1
+  software_files:
+  - DB2_Svr_10.5.0.8_Linux_x86-64.tar.gz
+  custom_facts:
+    deployment_zone: vagrant
+    product_version: db10
+    doc_version: V1.1.0
 ml-db115:
   ram:              6144
   public_ip:        '192.168.56.112'
   software_files:
   - DB2S_11.5.4_MPML.tar.gz
   - v11.5.7_linuxx64_universal_fixpack.tar.gz
+  custom_facts:
+    deployment_zone: vagrant
+    product_version: db11
+    doc_version: V1.0.0
 ml-db115a:
   ram:              6144
   public_ip:        '192.168.56.112'

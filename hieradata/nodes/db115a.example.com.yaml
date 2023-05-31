@@ -17,7 +17,7 @@ db2_profile::database::primary:                     db115a.example.com
 #
 db2_profile::database::after_db_primary:          profile::db2::move_backup
 
-db2_profile::database::db_definition::list: 
+db2_profile::database::db_definition::list:
   "db2inst1/%{lookup('db2_profile::database::name')}":
     ensure:            present
     hadr_local_host:   192.168.56.112
@@ -50,3 +50,5 @@ db2_profile::database::firewall::firewalld::ports:
     port: 5000
   '310 Allow DB2 on port 20016':
     port: 20016
+
+db2_secured::product_version:  'db11'

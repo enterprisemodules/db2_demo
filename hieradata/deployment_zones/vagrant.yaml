@@ -1,6 +1,9 @@
+---
+db2_profile::database::source: /vagrant/modules/software/files
 profile::base::hosts::list:
   db2master.example.com:
     ip: 192.168.56.10
     host_aliases:
       - dbmaster
       - puppet
+easy_type::extended_debugging:  true

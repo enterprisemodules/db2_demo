@@ -1,8 +1,8 @@
 ---
 deployment_zone: vagrant
 
-# role: role::db2::simple_db
-role: role::db2::secure_db
+role: role::db2::simple_db
+# role: role::db2::secure_db
 
 db2_profile::name:                                  MYDB
 db2_profile::source:                                /vagrant/modules/software/files
@@ -17,7 +17,7 @@ db2_profile::database::primary:                     db115a.example.com
 #
 db2_profile::database::db_standby::backup_path:  /vagrant/db2backup
 
-db2_profile::database::db_standby::list: 
+db2_profile::database::db_standby::list:
   "db2inst1/%{lookup('db2_profile::database::name')}":
     hadr_local_host:   192.168.56.113
     hadr_remote_host:  192.168.56.112
@@ -47,3 +47,5 @@ db2_profile::database::firewall::firewalld::ports:
     port: 5000
   '310 Allow DB2 on port 20016':
     port: 20016
+
+db2_secured::product_version:  'db11'
