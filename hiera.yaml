@@ -9,7 +9,7 @@ hierarchy:
     data_hash: easy_type::yaml_with_include
     paths: 
       - "nodes/%{trusted.certname}.yaml"  # File path, relative to datadir.
-      - "nodes/%{hostname}.yaml" 
+      - "nodes/%{networking.hostname}.yaml" 
       
   - name: "Deployment Zone" # Uses custom facts.
     path: "deployment_zones/%{::deployment_zone}.yaml"
